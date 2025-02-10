@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsAppBsc2024_25_12
+namespace Story_Reader
 {
     internal static class Program
     {
@@ -16,7 +16,7 @@ namespace WindowsFormsAppBsc2024_25_12
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new StoryReader());
         }
     }
 }

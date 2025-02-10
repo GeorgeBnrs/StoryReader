@@ -4,27 +4,20 @@ using System.Net.Http;
 using System.Speech.Synthesis;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-//using System.Data.OleDb;
 using System.IO;
 using System.Data.SQLite;
 
-using System.Data.Common;
-using System.Data.SqlTypes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-
-namespace WindowsFormsAppBsc2024_25_12
+namespace Story_Reader
 {
-    public partial class Form1 : Form
+    public partial class StoryReader : Form
     {
-        //private string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\vasil\source\repos\FinalErg\WindowsFormsAppBsc2024_25_12\bin\Debug\stories.accdb";
-
         // Δημιουργία HttpClient και SpeechSynthesizer
         SpeechSynthesizer synthesizer = new SpeechSynthesizer();
         HttpClient client = new HttpClient();
         // Λίστα για να κρατάει τις ιστορίες
         List<Story> stories = new List<Story>();
 
-        public Form1()
+        public StoryReader()
         {
             InitializeComponent();
         }
@@ -69,8 +62,6 @@ namespace WindowsFormsAppBsc2024_25_12
             {
                 LoadStoriesFromDatabase();
             }
-
-            //LoadStoriesFromDatabase();
         }
 
         private void btnRead_Click(object sender, EventArgs e)
@@ -111,57 +102,10 @@ namespace WindowsFormsAppBsc2024_25_12
             }
         }
 
-        private async void btnLoadStories_Click(object sender, EventArgs e)
+        private void btnLoadStories_Click(object sender, EventArgs e)
         {
             WipeDB();
             SaveStoriesToDatabase();
-            //try
-            //{
-            //    // Λήψη δεδομένων JSON από το API
-            //    string response = await client.GetStringAsync("https://shortstories-api.onrender.com/stories");
-
-            //    // Deserialize το JSON στην λίστα με αντικείμενα Story
-            //    var storyList = JsonConvert.DeserializeObject<List<Story>>(response);
-
-            //    listBoxStories.Items.Clear();  // Καθαρισμός προηγούμενων αντικειμένων
-            //    stories.Clear();
-
-            //    // Προσθήκη τίτλων των ιστοριών στο ListBox
-            //    foreach (var story in storyList)
-            //    {
-            //        if (string.IsNullOrEmpty(story.Category)) // Έλεγχος αν το API δεν παρέχει τα σωστά δεδομένα
-            //        {
-            //            // Εκχώρηση κατηγορίας με βάση λέξεις-κλειδιά που βρίσκονται στο περιεχόμενο της κάθε ιστορίας
-            //            if (story.Content.ToLower().Contains("monster") || story.Content.ToLower().Contains("beast")) story.Category = "Science-Finction";
-            //            else if (story.Content.ToLower().Contains("wolf") || story.Content.ToLower().Contains("wolves")
-            //                || story.Content.ToLower().Contains("lion")
-            //                || story.Content.ToLower().Contains("dog")
-            //                || story.Content.ToLower().Contains("tiger")) story.Category = "About powerful animals";
-            //            else if (story.Content.ToLower().Contains("tree") || story.Content.ToLower().Contains("forest")
-            //                || story.Content.ToLower().Contains("mountain")
-            //                || story.Content.ToLower().Contains("river")
-            //                || story.Content.ToLower().Contains("lake")) story.Category = "In nature";
-            //            else if (story.Content.ToLower().Contains("dead") || story.Content.ToLower().Contains("death")
-            //                || story.Content.ToLower().Contains("die")
-            //                || story.Content.ToLower().Contains("kill")
-            //                || story.Content.ToLower().Contains("slay")) story.Category = "Adults";
-            //            else story.Category = "General";
-            //        }
-
-            //        listBoxStories.Items.Add($"{story.Title} ({story.Category})");
-            //        stories.Add(story);
-
-            //        // Αποθήκευση στο Database
-            //        //SaveStoryToDatabase(story);
-            //    }
-
-            //    // Αποθήκευση ιστοριών για μελλοντική χρήση
-            //    stories = storyList;
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("An error occurred while loading the stories: " + ex.Message);
-            //}
         }
 
         // Όταν επιλεγεί μια ιστορία, εμφάνιση και ανάγνωση της
@@ -204,7 +148,6 @@ namespace WindowsFormsAppBsc2024_25_12
         private void btnStop_Click(object sender, EventArgs e)
         {
             synthesizer.SpeakAsyncCancelAll();
-            btnPauseResume.Text = "Pause/Resume";
         }
 
         private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -268,7 +211,6 @@ namespace WindowsFormsAppBsc2024_25_12
             //try
             {
                 SQLiteConnection dbConnection;
-                string SQLString;
                 SQLiteCommand command;
 
                 // Λήψη δεδομένων JSON από το API
@@ -325,26 +267,6 @@ namespace WindowsFormsAppBsc2024_25_12
                 // Αποθήκευση ιστοριών για μελλοντική χρήση
                 stories = storyList;
             }
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("An error occurred while loading the stories: " + ex.Message);
-            //}
-
-            //using (OleDbConnection connection = new OleDbConnection(connectionString))
-            //{
-            //    string query = "INSERT INTO Stories (Title, Author, Content, Category) VALUES (@Title, @Author, @Content, @Category)";
-
-            //    using (OleDbCommand command = new OleDbCommand(query, connection))
-            //    {
-            //        command.Parameters.AddWithValue("@Title", story.Title);
-            //        command.Parameters.AddWithValue("@Author", story.Author);
-            //        command.Parameters.AddWithValue("@Content", story.Content);
-            //        command.Parameters.AddWithValue("@Category", "Uncategorized"); // Default category
-
-            //        connection.Open();
-            //        command.ExecuteNonQuery();
-            //    }
-            //}
         }
         private void LoadStoriesFromDatabase()
         {
@@ -374,41 +296,8 @@ namespace WindowsFormsAppBsc2024_25_12
                 listBoxStories.Items.Add(story.Title);
             }
             dbConnection.Close();
-
-            //using (OleDbConnection connection = new OleDbConnection(connectionString))
-            //{
-            //    string query = "SELECT * FROM Stories";
-
-            //    using (OleDbCommand command = new OleDbCommand(query, connection))
-            //    {
-            //        connection.Open();
-            //        using (OleDbDataReader reader = command.ExecuteReader())
-            //        {
-            //            while (reader.Read())
-            //            {
-            //                Story story = new Story
-            //                {
-            //                    Title = reader["Title"].ToString(),
-            //                    Author = reader["Author"].ToString(),
-            //                    Content = reader["Content"].ToString(),
-            //                    Category = reader["Category"].ToString()
-            //                };
-
-            //                stories.Add(story);
-            //                listBoxStories.Items.Add(story.Title);
-            //            }
-            //        }
-            //    }
-            //}
         }
     }
 
-    public class Story
-    {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        [JsonProperty("story")]
-        public string Content { get; set; }
-        public string Category { get; set; }
-    }
+
 }

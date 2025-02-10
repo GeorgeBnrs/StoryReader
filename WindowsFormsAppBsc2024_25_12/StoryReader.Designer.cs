@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsAppBsc2024_25_12
+﻿namespace Story_Reader
 {
-    partial class Form1
+    partial class StoryReader
     {
         /// <summary>
         /// Required designer variable.

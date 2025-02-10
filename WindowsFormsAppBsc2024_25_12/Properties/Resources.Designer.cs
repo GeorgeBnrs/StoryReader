@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WindowsFormsAppBsc2024_25_12.Properties
+namespace Story_Reader.Properties
 {
 
 
