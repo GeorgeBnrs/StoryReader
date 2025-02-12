@@ -125,6 +125,7 @@ namespace Story_Reader
                 {
                     synthesizer.SpeakAsync(selectedStory.Content);
                     synthesizer.Resume();
+                    btnPauseResume.Text = "Pause";
                 }
                 else
                 {
