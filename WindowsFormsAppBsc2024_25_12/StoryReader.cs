@@ -230,8 +230,7 @@ namespace Story_Reader
                     if (string.IsNullOrEmpty(story.Category)) // Έλεγχος αν το API δεν παρέχει τα σωστά δεδομένα
                     {
                         // Εκχώρηση κατηγορίας με βάση λέξεις-κλειδιά που βρίσκονται στο περιεχόμενο της κάθε ιστορίας
-                        if (story.Content.ToLower().Contains("monster") || story.Content.ToLower().Contains("beast")) story.Category = "Science-Finction";
-                        else if (story.Content.ToLower().Contains("wolf") || story.Content.ToLower().Contains("wolves")
+                        if (story.Content.ToLower().Contains("wolf") || story.Content.ToLower().Contains("wolves")
                             || story.Content.ToLower().Contains("lion")
                             || story.Content.ToLower().Contains("dog")
                             || story.Content.ToLower().Contains("tiger")) story.Category = "About powerful animals";
