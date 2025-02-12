@@ -124,6 +124,7 @@ namespace Story_Reader
                 if (!string.IsNullOrEmpty(selectedStory.Content))
                 {
                     synthesizer.SpeakAsync(selectedStory.Content);
+                    synthesizer.Resume();
                 }
                 else
                 {
