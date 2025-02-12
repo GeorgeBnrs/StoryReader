@@ -105,6 +105,7 @@ namespace Story_Reader
         private void btnLoadStories_Click(object sender, EventArgs e)
         {
             WipeDB();
+            CreateDB();
             SaveStoriesToDatabase();
         }
 
@@ -176,17 +177,24 @@ namespace Story_Reader
         }
 
        private void WipeDB()
-        {
-            SQLiteConnection dbConnection;
-            string SQLString;
-            SQLiteCommand command;
-
-            dbConnection = new SQLiteConnection("Data Source=stories.sqlite;Version=3;");
-            dbConnection.Open();
-            SQLString = "drop table Stories";
-            command = new SQLiteCommand(SQLString, dbConnection);
-            command.ExecuteNonQuery();
-            dbConnection.Close();
+       {
+           string dbPath = "stories.sqlite";
+           FileInfo fi = new FileInfo(dbPath);
+           try
+           {
+               if (fi.Exists)
+               {
+                   SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath + ";");
+                   connection.Close();
+                   GC.Collect();
+                   GC.WaitForPendingFinalizers();
+                   fi.Delete();
+               }
+           }
+           catch (Exception ex)
+           {
+               fi.Delete();
+           }
         }
        private void CreateDB()
         {
